@@ -31,7 +31,7 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
 		<SocialList />
 	</section>
 	{
-		pinnedPosts.length > 0 && (
+		pinnedPosts.filter((p) => p.data.draft === false).length > 0 && (
 			<section class="mt-16">
 				<h2 class="title mb-6 text-xl">Pinned Posts</h2>
 				<ul class="space-y-4" role="list">
@@ -48,26 +48,30 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
 		<h2 class="title text-accent mb-6 text-xl"><a href="/posts/">Posts</a></h2>
 		<ul class="space-y-4" role="list">
 			{
-				allPostsByDate.map((p) => (
-					<li class="grid gap-1 sm:grid-cols-[auto_1fr]">
-						<PostPreview post={p} />
-					</li>
-				))
+				allPostsByDate
+					.filter((p) => p.data.draft === false)
+					.map((p) => (
+						<li class="grid gap-1 sm:grid-cols-[auto_1fr]">
+							<PostPreview post={p} />
+						</li>
+					))
 			}
 		</ul>
 	</section>
 	{
-		latestNotes.length > 0 && (
+		latestNotes.filter((n) => n.data.draft === false).length > 0 && (
 			<section class="mt-16">
 				<h2 class="title text-accent mb-6 text-xl">
 					<a href="/notes/">Notes</a>
 				</h2>
 				<ul class="space-y-6" role="list">
-					{latestNotes.map((note) => (
-						<li>
-							<Note note={note} as="h3" isPreview />
-						</li>
-					))}
+					{latestNotes
+						.filter((n) => n.data.draft === false)
+						.map((note) => (
+							<li>
+								<Note note={note} as="h3" isPreview />
+							</li>
+						))}
 				</ul>
 			</section>
 		)
